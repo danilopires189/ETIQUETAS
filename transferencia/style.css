@@ -72,8 +72,31 @@ body{margin:0;color:var(--text);font:15px/1.45 "Inter",system-ui,-apple-system,S
 @media print{
   body{background:white}
   .topbar,.hero{display:none !important}
-  .page{box-shadow:none; break-after:page; page-break-after:always; border-radius:0}
-  @page{ size:A4 landscape; margin:8mm }
+  .page{box-shadow:none; border-radius:0}
+  @page{ 
+    size:A4 landscape; 
+    margin:5mm;
+    /* Evitar páginas em branco */
+    page-break-inside: avoid;
+  }
+  /* Ajustar escala para 80% */
+  .page {
+    transform: scale(0.8);
+    transform-origin: top left;
+    width: 125%; /* Compensar a redução de escala */
+    height: 125%;
+    /* Remover quebra de página automática */
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+  /* Evitar quebras de página desnecessárias */
+  .page-inner {
+    page-break-inside: avoid;
+  }
+  /* Garantir que não haja páginas em branco */
+  .preview {
+    page-break-inside: avoid;
+  }
 }
 
 .doc-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}

@@ -93,9 +93,9 @@
 
       <div class="card-actions">
         <div class="print-controls">
-          <label>Largura (mm)<input id="wmm" type="number" min="40" max="65" step="1"></label>
-          <label>Altura (mm)<input id="hmm" type="number" min="12" max="30" step="1"></label>
-          <label>Margem Esq. (mm)<input id="lmm" type="number" min="0" max="10" step="1"></label>
+          <label>Largura (mm)<input id="wmm" type="number" min="50" max="80" step="1"></label>
+          <label>Altura (mm)<input id="hmm" type="number" min="30" max="60" step="1"></label>
+          <label>Margem Esq. (mm)<input id="lmm" type="number" min="0" max="5" step="1"></label>
           <label>Espaço barras<input id="space" type="range" min="1.0" max="1.8" step="0.05"></label>
         </div>
         <div class="spacer"></div>
@@ -129,11 +129,199 @@
 
   <script>window.BARRAS_JSON_PATH = "base_barras_index.json";</script>
   <script src="busca.js"></script>
-  <!-- Integração com contador global -->
-  <script src="../shared/contador-integration.js"></script>
+  
+  <!-- Contador Global Centralizado -->
+  <script src="../js/contador-global-centralizado.js"></script>
+  
   <script>
-    // A integração é feita automaticamente pelo contador-integration.js
-    console.log('🏷️ Aplicação de Etiquetas de Produto carregada');
+    // Configurar contador para tipo 'placas'
+    window.addEventListener('DOMContentLoaded', async () => {
+      console.log('🏷️ Aplicação de Etiquetas de Produto carregada');
+      
+      // Aguardar contador estar pronto
+      setTimeout(async () => {
+        if (window.contadorGlobal) {
+          console.log('✅ Contador Global disponível');
+          
+          // Interceptar impressões para contar etiquetas
+          const btnPrint = document.getElementById('btnPrint');
+          if (btnPrint) {
+            console.log('🔗 Botão imprimir encontrado, configurando interceptação...');
+            
+            const originalClick = btnPrint.onclick;
+            btnPrint.onclick = async function(e) {
+              try {
+                console.log('🖱️ Botão imprimir clicado');
+                
+                // Incrementar contador global antes de imprimir
+                const novoValor = await window.contadorGlobal.incrementarContador(1, 'placas');
+                console.log(`✅ Contador incrementado: +1 placas = ${novoValor}`);
+                
+                // Mostrar popup de sucesso
+                console.log('🎉 Chamando mostrarPopupSucesso...');
+                mostrarPopupSucesso('Etiqueta gerada com sucesso!', `Total: ${novoValor.toLocaleString('pt-BR')} etiquetas`);
+                console.log('✅ Popup chamado com sucesso');
+                
+                // Feedback visual discreto
+                const valorFormatado = novoValor.toLocaleString('pt-BR');
+                console.log(`📊 Total atual: ${valorFormatado} etiquetas`);
+                
+                // Executar função original de impressão
+                if (originalClick) {
+                  originalClick.call(this, e);
+                } else {
+                  window.print();
+                }
+              } catch (error) {
+                console.error('❌ Erro ao incrementar contador:', error);
+                // Continuar com impressão mesmo se contador falhar
+                if (originalClick) {
+                  originalClick.call(this, e);
+                } else {
+                  window.print();
+                }
+              }
+            };
+          } else {
+            console.warn('⚠️ Botão imprimir não encontrado');
+          }
+        } else {
+          console.warn('⚠️ Contador Global não disponível');
+        }
+      }, 2000);
+    });
+    
+    // Função para mostrar popup de sucesso
+    function mostrarPopupSucesso(titulo, subtitulo) {
+      console.log('🎯 mostrarPopupSucesso chamada com:', titulo, subtitulo);
+      
+      // Remover popup existente se houver
+      const existingPopup = document.getElementById('popup-sucesso');
+      if (existingPopup) {
+        console.log('🗑️ Removendo popup existente');
+        existingPopup.remove();
+      }
+      
+      // Criar popup
+      const popup = document.createElement('div');
+      popup.id = 'popup-sucesso';
+      popup.innerHTML = `
+        <div class="popup-content">
+          <div class="popup-icon">✅</div>
+          <div class="popup-text">
+            <div class="popup-titulo">${titulo}</div>
+            <div class="popup-subtitulo">${subtitulo}</div>
+          </div>
+        </div>
+      `;
+      
+      console.log('📝 Popup criado, adicionando ao body...');
+      
+      // Adicionar ao body
+      document.body.appendChild(popup);
+      console.log('✅ Popup adicionado ao body');
+      
+      // Mostrar com animação
+      setTimeout(() => {
+        console.log('🎬 Adicionando classe show...');
+        popup.classList.add('show');
+        console.log('✅ Classe show adicionada');
+      }, 100);
+      
+      // Remover após 2 segundos
+      setTimeout(() => {
+        console.log('⏰ Removendo popup...');
+        popup.classList.remove('show');
+        setTimeout(() => {
+          if (popup.parentNode) {
+            popup.parentNode.removeChild(popup);
+            console.log('🗑️ Popup removido do DOM');
+          }
+        }, 300);
+      }, 2000);
+    }
   </script>
+  
+  <style>
+    /* Popup de Sucesso */
+    #popup-sucesso {
+      position: fixed !important;
+      top: 20px !important;
+      right: 20px !important;
+      z-index: 99999 !important;
+      background: white !important;
+      border-radius: 12px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3) !important;
+      border: 2px solid #10b981 !important;
+      padding: 0;
+      opacity: 0;
+      transform: translateX(100%);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      max-width: 320px;
+      overflow: hidden;
+      pointer-events: auto !important;
+    }
+    
+    #popup-sucesso.show {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    
+    .popup-content {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 20px;
+    }
+    
+    .popup-icon {
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+    
+    .popup-text {
+      flex: 1;
+    }
+    
+    .popup-titulo {
+      font-weight: 600;
+      color: #1f2937;
+      font-size: 14px;
+      margin-bottom: 2px;
+    }
+    
+    .popup-subtitulo {
+      font-size: 12px;
+      color: #6b7280;
+      font-weight: 500;
+    }
+    
+    /* Barra de progresso */
+    #popup-sucesso::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #10b981, #059669);
+      width: 100%;
+      animation: progress 2s linear forwards;
+    }
+    
+    @keyframes progress {
+      from { width: 100%; }
+      to { width: 0%; }
+    }
+    
+    /* Responsivo */
+    @media (max-width: 640px) {
+      #popup-sucesso {
+        top: 10px;
+        right: 10px;
+        left: 10px;
+        max-width: none;
+      }
+    }
+  </style>
 </body>
 </html>

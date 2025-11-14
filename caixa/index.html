@@ -207,13 +207,178 @@
   </footer>
 
   <script src="app.js"></script>
-  <!-- Integração com contador global -->
-  <script src="../shared/contador-integration.js"></script>
+  
+  <!-- Contador Global Centralizado -->
+  <script src="../js/contador-global-centralizado.js"></script>
+  
   <script>
-    // A integração é feita automaticamente pelo contador-integration.js
-    console.log('📦 Aplicação de Etiquetas de Caixa carregada');
+    // Configurar contador para tipo 'caixa'
+    window.addEventListener('DOMContentLoaded', async () => {
+      console.log('📦 Aplicação de Etiquetas de Caixa carregada');
+      
+      // Aguardar contador estar pronto
+      setTimeout(async () => {
+        if (window.contadorGlobal) {
+          console.log('✅ Contador Global disponível');
+          
+          // Interceptar geração de etiquetas para contar
+          const originalGerar = window.gerar;
+          window.gerar = async function() {
+            try {
+              // Obter quantidade de etiquetas que serão geradas
+              const qtd = parseInt(document.getElementById('qtd').value) || 0;
+              const copias = parseInt(document.getElementById('copias').value) || 1;
+              const totalEtiquetas = qtd * copias;
+              
+              console.log(`📊 Gerando ${totalEtiquetas} etiquetas (${qtd} × ${copias})`);
+              
+              if (totalEtiquetas > 0) {
+                // Incrementar contador global antes de gerar
+                const novoValor = await window.contadorGlobal.incrementarContador(totalEtiquetas, 'caixa');
+                console.log(`✅ Contador incrementado: +${totalEtiquetas} caixa = ${novoValor}`);
+                
+                // Mostrar popup de sucesso
+                mostrarPopupSucesso('Etiquetas geradas com sucesso!', `+${totalEtiquetas} etiquetas | Total: ${novoValor.toLocaleString('pt-BR')}`);
+                
+                // Feedback visual discreto
+                const valorFormatado = novoValor.toLocaleString('pt-BR');
+                console.log(`📊 Total atual: ${valorFormatado} etiquetas`);
+              }
+              
+              // Executar função original de geração
+              if (originalGerar) {
+                return originalGerar.call(this);
+              }
+            } catch (error) {
+              console.error('❌ Erro ao incrementar contador:', error);
+              alert(`❌ Erro no contador: ${error.message}\nContinuando com geração...`);
+              // Continuar com geração mesmo se contador falhar
+              if (originalGerar) {
+                return originalGerar.call(this);
+              }
+            }
+          };
+        } else {
+          console.warn('⚠️ Contador Global não disponível');
+        }
+      }, 2000);
+    });
+    
+    // Função para mostrar popup de sucesso
+    function mostrarPopupSucesso(titulo, subtitulo) {
+      // Criar popup
+      const popup = document.createElement('div');
+      popup.id = 'popup-sucesso';
+      popup.innerHTML = `
+        <div class="popup-content">
+          <div class="popup-icon">✅</div>
+          <div class="popup-text">
+            <div class="popup-titulo">${titulo}</div>
+            <div class="popup-subtitulo">${subtitulo}</div>
+          </div>
+        </div>
+      `;
+      
+      // Adicionar ao body
+      document.body.appendChild(popup);
+      
+      // Mostrar com animação
+      setTimeout(() => {
+        popup.classList.add('show');
+      }, 100);
+      
+      // Remover após 2 segundos
+      setTimeout(() => {
+        popup.classList.remove('show');
+        setTimeout(() => {
+          if (popup.parentNode) {
+            popup.parentNode.removeChild(popup);
+          }
+        }, 300);
+      }, 2000);
+    }
   </script>
-
+  
+  <style>
+    /* Popup de Sucesso */
+    #popup-sucesso {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 10000;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+      border: 1px solid #e2e8f0;
+      padding: 0;
+      opacity: 0;
+      transform: translateX(100%);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      max-width: 320px;
+      overflow: hidden;
+    }
+    
+    #popup-sucesso.show {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    
+    .popup-content {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 20px;
+    }
+    
+    .popup-icon {
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+    
+    .popup-text {
+      flex: 1;
+    }
+    
+    .popup-titulo {
+      font-weight: 600;
+      color: #1f2937;
+      font-size: 14px;
+      margin-bottom: 2px;
+    }
+    
+    .popup-subtitulo {
+      font-size: 12px;
+      color: #6b7280;
+      font-weight: 500;
+    }
+    
+    /* Barra de progresso */
+    #popup-sucesso::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #10b981, #059669);
+      width: 100%;
+      animation: progress 2s linear forwards;
+    }
+    
+    @keyframes progress {
+      from { width: 100%; }
+      to { width: 0%; }
+    }
+    
+    /* Responsivo */
+    @media (max-width: 640px) {
+      #popup-sucesso {
+        top: 10px;
+        right: 10px;
+        left: 10px;
+        max-width: none;
+      }
+    }
+  </style>
 </body>
 
 </html>

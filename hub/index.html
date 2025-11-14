@@ -88,12 +88,24 @@
   <div id="bar">
     <strong id="appTitle">Escolha a aplicação para iniciar</strong>
     <span style="flex:1"></span>
+    <div id="contador-display" style="display: flex; align-items: center; gap: 12px; margin-right: 16px; padding: 8px 16px; background: var(--card); border-radius: 20px; border: 1px solid #00000014; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+      <div style="display: flex; align-items: center; gap: 6px;">
+        <span style="font-size: 14px; color: var(--muted);">📊</span>
+        <span style="font-size: 12px; color: var(--muted);">Total:</span>
+      </div>
+      <span id="contador-valor" style="font-weight: 700; color: var(--brand); font-size: 16px; min-width: 80px; text-align: center;">19.452</span>
+      <span style="font-size: 12px; color: var(--muted);">etiquetas</span>
+      <div id="contador-status" style="width: 8px; height: 8px; border-radius: 50%; background: #10b981; animation: pulse 2s infinite;"></div>
+    </div>
     <span id="status" aria-live="polite"></span>
   </div>
 
   <div id="empty">Selecione uma aplicação para iniciar.</div>
   <iframe id="appFrame" src="about:blank" title="Aplicação selecionada" referrerpolicy="no-referrer"></iframe>
 
+  <!-- Contador Global Centralizado -->
+  <script src="../js/contador-global-centralizado.js"></script>
+  
   <script>
     // Caminhos mantidos
     const APPS = {
@@ -155,6 +167,67 @@
 
     // Inicializa a altura correta do placeholder e iframe
     resizeFrame();
+    
+    // Atualizar contador global
+    function atualizarContador(animar = false) {
+      if (window.contadorGlobal) {
+        const valor = window.contadorGlobal.obterValor();
+        const valorFormatado = valor.toLocaleString('pt-BR');
+        const elemento = document.getElementById('contador-valor');
+        
+        if (animar) {
+          // Animação de incremento
+          elemento.style.transform = 'scale(1.2)';
+          elemento.style.color = '#10b981';
+          elemento.style.transition = 'all 0.3s ease';
+          
+          setTimeout(() => {
+            elemento.style.transform = 'scale(1)';
+            elemento.style.color = 'var(--brand)';
+          }, 300);
+        }
+        
+        elemento.textContent = valorFormatado;
+        
+        // Atualizar status do contador
+        const statusElement = document.getElementById('contador-status');
+        if (statusElement) {
+          statusElement.style.background = '#10b981';
+          statusElement.style.animation = 'pulse 2s infinite';
+        }
+      }
+    }
+    
+    // Escutar eventos de incremento
+    window.addEventListener('contador-incremento', (event) => {
+      console.log('📈 Contador atualizado via evento:', event.detail);
+      atualizarContador(true); // Animar quando houver incremento
+    });
+    
+    // Escutar evento customizado do contador
+    window.addEventListener('contador-atualizado', (event) => {
+      console.log('🔄 Contador atualizado:', event.detail);
+      atualizarContador(true); // Animar quando houver incremento
+    });
+    
+    // Atualizar contador inicial
+    setTimeout(() => {
+      atualizarContador();
+      console.log('🔄 Contador inicial atualizado');
+    }, 1000);
+    
+    // Atualizar contador periodicamente
+    setInterval(() => {
+      atualizarContador();
+    }, 3000); // A cada 3 segundos
+    
+    // Monitorar mudanças no localStorage (para sincronização entre abas)
+    window.addEventListener('storage', (event) => {
+      if (event.key === 'contador_global_centralizado_v1') {
+        console.log('🔄 Contador atualizado via localStorage');
+        atualizarContador(true);
+      }
+    });
   </script>
 
   <style>
@@ -218,6 +291,31 @@
     #appSelect:focus {
       transform: translateY(-1px);
       box-shadow: 0 2px 8px rgba(37, 99, 235, 0.25);
+    }
+    
+    /* ===== ANIMAÇÕES DO CONTADOR ===== */
+    @keyframes pulse {
+      0%, 100% { 
+        opacity: 1; 
+        transform: scale(1);
+      }
+      50% { 
+        opacity: 0.7; 
+        transform: scale(1.1);
+      }
+    }
+    
+    #contador-display {
+      transition: all 0.3s ease;
+    }
+    
+    #contador-display:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    
+    #contador-valor {
+      transition: all 0.3s ease;
     }
   </style>
 </body>

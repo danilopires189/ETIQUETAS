@@ -1,19 +1,19 @@
 {
-  "totalEtiquetas": 19452,
-  "ultimaAtualizacao": "2025-01-09T12:00:00Z",
+  "totalEtiquetas": 20430,
+  "ultimaAtualizacao": "2024-01-01T00:00:00.000Z",
   "breakdown": {
-    "placas": 0,
     "caixa": 0,
     "avulso": 0,
     "enderec": 0,
+    "placas": 0,
     "transfer": 0,
-    "termo": 0
+    "termo": 0,
+    "geral": 0
   },
-  "historico": [
-    {
-      "data": "2025-01-09T12:00:00Z",
-      "valor": 19452,
-      "tipo": "inicial"
-    }
-  ]
+  "historico": [],
+  "configuracao": {
+    "valorInicial": 20430,
+    "versao": "1.0",
+    "criadoEm": "2024-01-01T00:00:00.000Z"
+  }
 }
