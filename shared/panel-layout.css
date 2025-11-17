@@ -1,0 +1,541 @@
+/**
+ * Panel Layout - Padrão Módulo Caixa
+ * Pague Menos - Sistema de Etiquetas
+ * 
+ * Layout padronizado baseado no módulo caixa
+ */
+
+/* ========================================
+   PANEL CONTROLS - LAYOUT PADRÃO
+   ======================================== */
+
+.panel.controls {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-6);
+  padding: var(--space-8);
+  background: var(--surface);
+  border: 1px solid var(--neutral-200);
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-lg);
+  max-width: 1200px;
+  margin: var(--space-6) auto;
+}
+
+/* Campo de formulário */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.field.full {
+  grid-column: 1 / -1;
+}
+
+/* Labels */
+.field label {
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  color: var(--neutral-700);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* Tooltip icon */
+.tooltip {
+  cursor: help;
+  font-size: var(--text-xs);
+  opacity: 0.7;
+  transition: opacity var(--transition-fast);
+}
+
+.tooltip:hover {
+  opacity: 1;
+}
+
+/* Inputs padrão */
+.field input[type="text"],
+.field input[type="number"],
+.field select {
+  padding: var(--space-3) var(--space-4);
+  border: 2px solid var(--neutral-200);
+  border-radius: var(--radius-lg);
+  font-size: var(--text-base);
+  background: var(--surface);
+  transition: all var(--transition-base);
+}
+
+.field input:focus,
+.field select:focus {
+  outline: none;
+  border-color: var(--brand-accent);
+  box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.1);
+}
+
+/* Row layout para inputs lado a lado */
+.field .row {
+  display: flex;
+  gap: var(--space-3);
+}
+
+.field .row input {
+  flex: 1;
+}
+
+.field .row.wrap {
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+/* Hint text */
+.hint {
+  font-size: var(--text-xs);
+  color: var(--neutral-500);
+  font-weight: var(--font-medium);
+}
+
+/* Switch/Checkbox customizado */
+.switch {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  cursor: pointer;
+  user-select: none;
+}
+
+.switch input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.switch span {
+  font-size: var(--text-sm);
+  color: var(--neutral-700);
+}
+
+/* Validação de campos */
+.field-validation {
+  font-size: var(--text-xs);
+  color: var(--error-600);
+  min-height: 18px;
+}
+
+.field-info {
+  font-size: var(--text-xs);
+  color: var(--neutral-600);
+  min-height: 18px;
+}
+
+/* Generation controls */
+.generation-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.generation-info {
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  color: var(--neutral-700);
+}
+
+/* Progress container */
+.progress-container {
+  margin-top: var(--space-4);
+}
+
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background: var(--neutral-200);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--gradient-primary);
+  border-radius: var(--radius-full);
+  transition: width var(--transition-base);
+}
+
+.progress-text {
+  display: block;
+  margin-top: var(--space-2);
+  font-size: var(--text-sm);
+  color: var(--neutral-600);
+  text-align: center;
+}
+
+/* ========================================
+   HEADER PADRÃO
+   ======================================== */
+
+.app-header {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--neutral-200);
+  padding: var(--space-4) var(--space-6);
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky);
+  box-shadow: var(--shadow-sm);
+}
+
+.app-header .brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.app-header .brand-logos {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.app-header .nav-logo {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-lg);
+  object-fit: contain;
+  padding: var(--space-1);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-base);
+}
+
+.app-header .nav-logo:hover {
+  transform: scale(1.05);
+  box-shadow: var(--shadow-md);
+}
+
+.app-header .brand-text h1 {
+  font-size: var(--text-xl);
+  font-weight: var(--font-bold);
+  color: var(--brand-primary);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.app-header .app-subtitle {
+  font-size: var(--text-sm);
+  color: var(--neutral-600);
+  font-weight: var(--font-medium);
+}
+
+.app-header .actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-left: auto;
+}
+
+/* Layout do header */
+.app-header > * {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+body > .app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* ========================================
+   FOOTER PADRÃO
+   ======================================== */
+
+.app-footer {
+  background: var(--neutral-50);
+  border-top: 1px solid var(--neutral-200);
+  padding: var(--space-8) 0;
+  margin-top: var(--space-12);
+}
+
+.app-footer .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--space-6);
+}
+
+.app-footer .footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+
+.app-footer .footer-info {
+  flex: 1;
+}
+
+.app-footer .footer-title {
+  font-size: var(--text-base);
+  font-weight: var(--font-semibold);
+  color: var(--neutral-900);
+  margin: 0 0 var(--space-1) 0;
+}
+
+.app-footer .footer-subtitle {
+  font-size: var(--text-sm);
+  color: var(--neutral-600);
+  margin: 0;
+}
+
+.app-footer .footer-links {
+  display: flex;
+  gap: var(--space-4);
+}
+
+.app-footer .footer-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  background: var(--surface);
+  border: 1px solid var(--neutral-200);
+  border-radius: var(--radius-lg);
+  color: var(--brand-primary);
+  text-decoration: none;
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  transition: all var(--transition-base);
+}
+
+.app-footer .footer-link:hover {
+  background: var(--brand-primary);
+  color: white;
+  border-color: var(--brand-primary);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* ========================================
+   MODAL PADRÃO
+   ======================================== */
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: var(--z-modal);
+  padding: var(--space-4);
+}
+
+.modal-content {
+  background: var(--surface);
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-2xl);
+  max-width: 600px;
+  width: 100%;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-6);
+  border-bottom: 1px solid var(--neutral-200);
+}
+
+.modal-header h3 {
+  font-size: var(--text-xl);
+  font-weight: var(--font-bold);
+  color: var(--neutral-900);
+  margin: 0;
+}
+
+.modal-close {
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: var(--neutral-100);
+  border-radius: var(--radius-full);
+  font-size: var(--text-2xl);
+  line-height: 1;
+  cursor: pointer;
+  color: var(--neutral-600);
+  transition: all var(--transition-base);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-close:hover {
+  background: var(--error-100);
+  color: var(--error-600);
+}
+
+.modal-body {
+  padding: var(--space-6);
+  overflow-y: auto;
+  flex: 1;
+}
+
+.modal-footer {
+  padding: var(--space-6);
+  border-top: 1px solid var(--neutral-200);
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-3);
+}
+
+/* ========================================
+   PREVIEW AREA
+   ======================================== */
+
+.preview {
+  max-width: 1200px;
+  margin: var(--space-8) auto;
+  padding: 0 var(--space-6);
+}
+
+/* ========================================
+   RESPONSIVIDADE
+   ======================================== */
+
+@media (max-width: 768px) {
+  .panel.controls {
+    grid-template-columns: 1fr;
+    padding: var(--space-6);
+    gap: var(--space-4);
+    margin: var(--space-4) var(--space-4);
+  }
+  
+  .app-header {
+    padding: var(--space-3) var(--space-4);
+  }
+  
+  .app-header > * {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-3);
+  }
+  
+  .app-header .actions {
+    width: 100%;
+    justify-content: flex-start;
+    margin-left: 0;
+  }
+  
+  .app-header .nav-logo {
+    width: 36px;
+    height: 36px;
+  }
+  
+  .app-footer .footer-content {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .app-footer .footer-links {
+    justify-content: center;
+  }
+  
+  .modal-content {
+    max-height: 90vh;
+  }
+  
+  .field .row {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .panel.controls {
+    padding: var(--space-4);
+    margin: var(--space-3) var(--space-3);
+  }
+  
+  .app-header .brand-text h1 {
+    font-size: var(--text-lg);
+  }
+  
+  .app-header .app-subtitle {
+    font-size: var(--text-xs);
+  }
+  
+  .generation-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .generation-controls .btn {
+    width: 100%;
+  }
+}
+
+/* ========================================
+   ANIMAÇÕES
+   ======================================== */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-in-up {
+  animation: slideInUp 0.4s ease-out;
+}
+
+/* ========================================
+   PRINT STYLES
+   ======================================== */
+
+@media print {
+  .app-header,
+  .app-footer,
+  .panel.controls,
+  .btn,
+  button {
+    display: none !important;
+  }
+  
+  .preview {
+    margin: 0;
+    padding: 0;
+    max-width: 100%;
+  }
+  
+  body {
+    background: white;
+  }
+}

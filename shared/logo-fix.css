@@ -1,0 +1,80 @@
+/**
+ * Logo Fix - Correção de Estilos dos Logos
+ * Pague Menos - Sistema de Etiquetas
+ * 
+ * Estilos específicos para garantir que os logos apareçam corretamente
+ */
+
+/* ========================================
+   LOGOS NO HEADER - PADRÃO INDEX
+   ======================================== */
+
+.brand-logos {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.nav-logo {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-lg);
+  object-fit: contain;
+  padding: var(--space-1);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-base);
+  display: block;
+}
+
+.nav-logo:hover {
+  transform: scale(1.05);
+  box-shadow: var(--shadow-md);
+}
+
+/* Garantir que a imagem não seja escondida */
+.nav-logo[onerror] {
+  display: block !important;
+}
+
+/* ========================================
+   RESPONSIVIDADE
+   ======================================== */
+
+@media (max-width: 768px) {
+  .nav-logo {
+    width: 36px;
+    height: 36px;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-logo {
+    width: 32px;
+    height: 32px;
+  }
+}
+
+/* ========================================
+   FALLBACK PARA LOGOS QUE NÃO CARREGAM
+   ======================================== */
+
+.nav-logo[src=""],
+.nav-logo:not([src]) {
+  /* Mostrar placeholder se logo não carregar */
+  background: var(--neutral-200);
+  position: relative;
+}
+
+.nav-logo[src=""]::after,
+.nav-logo:not([src])::after {
+  content: "PM";
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: var(--font-bold);
+  font-size: var(--text-sm);
+  color: var(--brand-primary);
+}

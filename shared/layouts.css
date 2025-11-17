@@ -1,0 +1,470 @@
+/**
+ * Responsive Layout System
+ * Pague Menos - Sistema de Etiquetas
+ * 
+ * Sistema de grid e layouts responsivos mobile-first
+ */
+
+/* ========================================
+   MOBILE-FIRST GRID SYSTEM
+   ======================================== */
+
+.responsive-grid {
+  display: grid;
+  gap: var(--space-4);
+  
+  /* Mobile: 1 coluna (padrão) */
+  grid-template-columns: 1fr;
+  
+  /* Tablet: 2 colunas */
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  /* Desktop: layout adaptativo */
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+}
+
+/* Variações de grid */
+.grid-2 {
+  display: grid;
+  gap: var(--space-4);
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+  .grid-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.grid-3 {
+  display: grid;
+  gap: var(--space-4);
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+  .grid-3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.grid-4 {
+  display: grid;
+  gap: var(--space-4);
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 640px) {
+  .grid-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid-4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Grid com auto-fit responsivo */
+.grid-auto {
+  display: grid;
+  gap: var(--space-4);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
+}
+
+/* Grid com auto-fill */
+.grid-fill {
+  display: grid;
+  gap: var(--space-4);
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 200px), 1fr));
+}
+
+/* ========================================
+   PANEL CONTROLS - RESPONSIVE
+   ======================================== */
+
+.panel {
+  /* Container responsivo */
+  max-width: min(1200px, 95vw);
+  margin: var(--space-6) auto;
+  
+  /* Visual moderno */
+  background: var(--surface);
+  border: 1px solid var(--neutral-200);
+  border-radius: var(--radius-2xl);
+  padding: var(--space-8);
+  box-shadow: var(--shadow-lg);
+  
+  /* Transição suave */
+  transition: all var(--transition-base);
+}
+
+.panel:hover {
+  box-shadow: var(--shadow-xl);
+}
+
+.panel.controls {
+  /* Grid adaptativo para controles */
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-4);
+}
+
+/* Mobile adaptations */
+@media (max-width: 768px) {
+  .panel {
+    margin: var(--space-4) auto;
+    padding: var(--space-6);
+    border-radius: var(--radius-xl);
+    max-width: 100%;
+  }
+  
+  .panel.controls {
+    grid-template-columns: 1fr;
+    gap: var(--space-3);
+  }
+}
+
+@media (max-width: 480px) {
+  .panel {
+    padding: var(--space-4);
+    margin: var(--space-3) auto;
+  }
+}
+
+/* ========================================
+   CONTAINER UTILITIES
+   ======================================== */
+
+.container {
+  width: 100%;
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--space-4);
+  padding-right: var(--space-4);
+}
+
+@media (min-width: 640px) {
+  .container {
+    padding-left: var(--space-6);
+    padding-right: var(--space-6);
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    padding-left: var(--space-8);
+    padding-right: var(--space-8);
+  }
+}
+
+.container-sm {
+  max-width: 640px;
+}
+
+.container-md {
+  max-width: 768px;
+}
+
+.container-lg {
+  max-width: 1024px;
+}
+
+.container-xl {
+  max-width: 1280px;
+}
+
+.container-fluid {
+  max-width: 100%;
+}
+
+/* ========================================
+   FLEXBOX UTILITIES
+   ======================================== */
+
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.flex-start {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.flex-end {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.items-start {
+  align-items: flex-start;
+}
+
+.items-end {
+  align-items: flex-end;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.justify-around {
+  justify-content: space-around;
+}
+
+.justify-evenly {
+  justify-content: space-evenly;
+}
+
+/* Gap utilities */
+.gap-1 { gap: var(--space-1); }
+.gap-2 { gap: var(--space-2); }
+.gap-3 { gap: var(--space-3); }
+.gap-4 { gap: var(--space-4); }
+.gap-5 { gap: var(--space-5); }
+.gap-6 { gap: var(--space-6); }
+.gap-8 { gap: var(--space-8); }
+
+/* ========================================
+   FORM LAYOUTS
+   ======================================== */
+
+.form-grid {
+  display: grid;
+  gap: var(--space-4);
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+  .form-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .form-grid--3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.form-row {
+  display: flex;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.form-row > * {
+  flex: 1;
+  min-width: 200px;
+}
+
+@media (max-width: 768px) {
+  .form-row {
+    flex-direction: column;
+  }
+  
+  .form-row > * {
+    min-width: 100%;
+  }
+}
+
+/* ========================================
+   SECTION LAYOUTS
+   ======================================== */
+
+.section {
+  padding: var(--space-12) 0;
+}
+
+.section-sm {
+  padding: var(--space-8) 0;
+}
+
+.section-lg {
+  padding: var(--space-16) 0;
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: var(--space-8) 0;
+  }
+  
+  .section-sm {
+    padding: var(--space-6) 0;
+  }
+  
+  .section-lg {
+    padding: var(--space-12) 0;
+  }
+}
+
+/* ========================================
+   STACK LAYOUTS
+   ======================================== */
+
+.stack {
+  display: flex;
+  flex-direction: column;
+}
+
+.stack-sm { gap: var(--space-2); }
+.stack-md { gap: var(--space-4); }
+.stack-lg { gap: var(--space-6); }
+.stack-xl { gap: var(--space-8); }
+
+/* ========================================
+   RESPONSIVE VISIBILITY
+   ======================================== */
+
+/* Hide on mobile */
+@media (max-width: 767px) {
+  .hide-mobile {
+    display: none !important;
+  }
+}
+
+/* Hide on tablet */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .hide-tablet {
+    display: none !important;
+  }
+}
+
+/* Hide on desktop */
+@media (min-width: 1024px) {
+  .hide-desktop {
+    display: none !important;
+  }
+}
+
+/* Show only on mobile */
+.show-mobile {
+  display: none !important;
+}
+
+@media (max-width: 767px) {
+  .show-mobile {
+    display: block !important;
+  }
+}
+
+/* Show only on tablet */
+.show-tablet {
+  display: none !important;
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .show-tablet {
+    display: block !important;
+  }
+}
+
+/* Show only on desktop */
+.show-desktop {
+  display: none !important;
+}
+
+@media (min-width: 1024px) {
+  .show-desktop {
+    display: block !important;
+  }
+}
+
+/* ========================================
+   PRINT LAYOUTS
+   ======================================== */
+
+@media print {
+  .panel,
+  .card {
+    box-shadow: none;
+    border: 1px solid var(--neutral-300);
+    page-break-inside: avoid;
+  }
+  
+  .no-print {
+    display: none !important;
+  }
+  
+  .app-header {
+    position: static;
+    background: white;
+    border-bottom: 2px solid var(--neutral-900);
+  }
+  
+  body {
+    background: white;
+  }
+}
+
+/* ========================================
+   ASPECT RATIO UTILITIES
+   ======================================== */
+
+.aspect-square {
+  aspect-ratio: 1 / 1;
+}
+
+.aspect-video {
+  aspect-ratio: 16 / 9;
+}
+
+.aspect-4-3 {
+  aspect-ratio: 4 / 3;
+}
+
+/* Fallback para navegadores sem suporte */
+@supports not (aspect-ratio: 1 / 1) {
+  .aspect-square::before {
+    content: "";
+    display: block;
+    padding-bottom: 100%;
+  }
+  
+  .aspect-video::before {
+    content: "";
+    display: block;
+    padding-bottom: 56.25%;
+  }
+}

@@ -1,0 +1,466 @@
+/**
+ * Accessibility & Performance Optimizations
+ * Pague Menos - Sistema de Etiquetas
+ * 
+ * Otimizações de acessibilidade e performance
+ */
+
+/* ========================================
+   ACESSIBILIDADE - FOCO VISÍVEL
+   ======================================== */
+
+/* Indicadores de foco modernos e visíveis */
+*:focus-visible {
+  outline: 3px solid var(--brand-accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* Foco para botões */
+button:focus-visible,
+.btn:focus-visible {
+  outline: 3px solid var(--brand-accent);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.2);
+}
+
+/* Foco para inputs */
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: none;
+  border-color: var(--brand-accent);
+  box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.1);
+}
+
+/* Foco para links */
+a:focus-visible {
+  outline: 3px solid var(--brand-accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* ========================================
+   ACESSIBILIDADE - CONTRASTE
+   ======================================== */
+
+/* Garantir contraste mínimo WCAG 2.1 AA */
+body {
+  color: var(--neutral-900);
+  background: var(--neutral-50);
+}
+
+/* Texto em fundos claros */
+.text-on-light {
+  color: var(--neutral-900);
+}
+
+/* Texto em fundos escuros */
+.text-on-dark {
+  color: var(--neutral-50);
+}
+
+/* Links com contraste adequado */
+a {
+  color: var(--brand-primary);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+
+a:hover {
+  color: var(--brand-accent);
+  text-decoration-thickness: 2px;
+}
+
+/* ========================================
+   ACESSIBILIDADE - MODO DE ALTO CONTRASTE
+   ======================================== */
+
+@media (prefers-contrast: high) {
+  :root {
+    /* Aumentar contraste das cores neutras */
+    --neutral-200: #d0d0d0;
+    --neutral-300: #a0a0a0;
+    --neutral-400: #808080;
+    --neutral-600: #505050;
+    --neutral-700: #404040;
+    --neutral-800: #202020;
+  }
+  
+  /* Bordas mais visíveis */
+  .card,
+  .panel,
+  .form-input,
+  .form-select,
+  .form-textarea {
+    border-width: 2px;
+    border-color: var(--neutral-900);
+  }
+  
+  /* Sombras mais pronunciadas */
+  .card,
+  .panel {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  }
+  
+  /* Botões com mais contraste */
+  .btn {
+    border-width: 2px;
+  }
+}
+
+/* ========================================
+   ACESSIBILIDADE - REDUÇÃO DE MOVIMENTO
+   ======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  /* Desabilitar animações de hover */
+  .app-card:hover,
+  .btn:hover,
+  .brand-logo:hover {
+    transform: none !important;
+  }
+}
+
+/* ========================================
+   PERFORMANCE - GPU ACCELERATION
+   ======================================== */
+
+/* Usar propriedades GPU-accelerated para animações */
+.app-card,
+.btn,
+.brand-logo,
+.modal,
+.nav-header {
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Remover will-change após animação */
+.app-card:not(:hover),
+.btn:not(:hover),
+.brand-logo:not(:hover) {
+  will-change: auto;
+}
+
+/* ========================================
+   PERFORMANCE - LAZY LOADING
+   ======================================== */
+
+/* Imagens com lazy loading */
+img[loading="lazy"] {
+  opacity: 0;
+  transition: opacity var(--transition-base);
+}
+
+img[loading="lazy"].loaded {
+  opacity: 1;
+}
+
+/* Placeholder para imagens */
+img[loading="lazy"]:not(.loaded) {
+  background: var(--neutral-200);
+  min-height: 100px;
+}
+
+/* ========================================
+   PERFORMANCE - LAYOUT SHIFTS
+   ======================================== */
+
+/* Prevenir layout shifts em imagens */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Aspect ratio para prevenir shifts */
+.img-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.img-container::before {
+  content: "";
+  display: block;
+  padding-bottom: 100%; /* Aspect ratio 1:1 */
+}
+
+.img-container img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ========================================
+   ACESSIBILIDADE - SKIP LINKS
+   ======================================== */
+
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--brand-primary);
+  color: white;
+  padding: var(--space-2) var(--space-4);
+  text-decoration: none;
+  border-radius: var(--radius-md);
+  z-index: var(--z-tooltip);
+  transition: top var(--transition-fast);
+}
+
+.skip-link:focus {
+  top: var(--space-2);
+  outline: 3px solid var(--brand-accent);
+  outline-offset: 2px;
+}
+
+/* ========================================
+   ACESSIBILIDADE - SCREEN READER ONLY
+   ======================================== */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.sr-only-focusable:focus,
+.sr-only-focusable:active {
+  position: static;
+  width: auto;
+  height: auto;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+}
+
+/* ========================================
+   ACESSIBILIDADE - ARIA LIVE REGIONS
+   ======================================== */
+
+[aria-live="polite"],
+[aria-live="assertive"] {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* ========================================
+   PERFORMANCE - PRINT OPTIMIZATIONS
+   ======================================== */
+
+@media print {
+  /* Remover elementos não necessários */
+  .no-print,
+  .nav-header,
+  .app-header .actions,
+  .btn,
+  button {
+    display: none !important;
+  }
+  
+  /* Otimizar cores para impressão */
+  * {
+    background: white !important;
+    color: black !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+  
+  /* Manter bordas essenciais */
+  .card,
+  .panel,
+  table,
+  th,
+  td {
+    border: 1px solid black !important;
+  }
+  
+  /* Evitar quebras de página */
+  .card,
+  .panel,
+  .app-card {
+    page-break-inside: avoid;
+  }
+  
+  /* Links com URL visível */
+  a[href]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.8em;
+    color: #666;
+  }
+  
+  /* Remover URLs de links internos */
+  a[href^="#"]::after,
+  a[href^="javascript:"]::after {
+    content: "";
+  }
+}
+
+/* ========================================
+   PERFORMANCE - FONT LOADING
+   ======================================== */
+
+/* Prevenir FOIT (Flash of Invisible Text) */
+body {
+  font-display: swap;
+}
+
+/* ========================================
+   ACESSIBILIDADE - TOUCH TARGETS
+   ======================================== */
+
+/* Garantir touch targets mínimos de 44x44px */
+@media (pointer: coarse) {
+  button,
+  .btn,
+  a,
+  input[type="checkbox"],
+  input[type="radio"],
+  select {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Aumentar área de toque para checkboxes e radios */
+  input[type="checkbox"],
+  input[type="radio"] {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+/* ========================================
+   ACESSIBILIDADE - TOOLTIPS ACESSÍVEIS
+   ======================================== */
+
+[data-tooltip] {
+  position: relative;
+  cursor: help;
+}
+
+[data-tooltip]::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-8px);
+  padding: var(--space-2) var(--space-3);
+  background: var(--neutral-900);
+  color: white;
+  font-size: var(--text-xs);
+  white-space: nowrap;
+  border-radius: var(--radius-md);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition-fast);
+  z-index: var(--z-tooltip);
+}
+
+[data-tooltip]:hover::after,
+[data-tooltip]:focus::after {
+  opacity: 1;
+}
+
+/* ========================================
+   PERFORMANCE - CONTENÇÃO DE LAYOUT
+   ======================================== */
+
+/* Contenção para melhorar performance de renderização */
+.card,
+.panel,
+.app-card {
+  contain: layout style paint;
+}
+
+/* ========================================
+   ACESSIBILIDADE - ESTADOS DESABILITADOS
+   ======================================== */
+
+[disabled],
+[aria-disabled="true"] {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Indicar visualmente elementos desabilitados */
+button[disabled],
+input[disabled],
+select[disabled],
+textarea[disabled] {
+  background: var(--neutral-100);
+  border-color: var(--neutral-300);
+  color: var(--neutral-500);
+}
+
+/* ========================================
+   PERFORMANCE - SCROLL SUAVE
+   ======================================== */
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Desabilitar scroll suave se usuário preferir movimento reduzido */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* ========================================
+   ACESSIBILIDADE - MODO ESCURO
+   ======================================== */
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Ajustar cores para modo escuro */
+    --surface: var(--neutral-900);
+    --surface-elevated: var(--neutral-800);
+    --background: var(--neutral-950);
+    --background-alt: var(--neutral-900);
+  }
+  
+  body {
+    color: var(--neutral-100);
+    background: var(--neutral-950);
+  }
+  
+  /* Ajustar contraste de textos */
+  .text-on-light {
+    color: var(--neutral-100);
+  }
+  
+  /* Ajustar bordas */
+  .card,
+  .panel,
+  .form-input,
+  .form-select,
+  .form-textarea {
+    border-color: var(--neutral-700);
+  }
+}
